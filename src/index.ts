@@ -4,32 +4,22 @@ import fs from "fs";
 import FlowChart from "./Charts/Flowchart.ts"; import ClassDiagram from "./Charts/ClassDiagram.ts"; import ERDiagram from "./Charts/ERDiagram.ts"; import SequenceDiagram from "./Charts/SequenceDiagram.ts"; import StateDiagram from "./Charts/StateDiagram.ts";
 
 try {
-let qf = {};
-if (fs.existsSync("qf.json")) {
-    qf = JSON.parse(fs.readFileSync("qf.json").toString());
-}
-
-var temp: any;
-
-if (qf.hasOwnProperty('answer')) {
-    //@ts-ignore
-    temp = mermaid.default.mermaidAPI.parse(qf.answer).parser.yy;
-} else {
-    //@ts-ignore
-    temp = mermaid.default.mermaidAPI.parse(qf.embeddedAnswer).parser.yy;
-}
+  let qf:any = {};
+    if (fs.existsSync("qf.json")) {
+      qf = JSON.parse(fs.readFileSync("qf.json").toString());
+    }
+  var temp: any;
+  const answer = qf.embeddedAnswer || qf.answer;
+  temp = mermaid.default.mermaidAPI.parse(answer).parser.yy;
 //const qf.answer qf.embeddedAnswer
-
-
-//add type and tsconfig and tsnode
-switch (temp.graphType) {
-  case "flowchart-v2":
-    const flowchart = {chart: new FlowChart(temp.getVertices(), temp.getEdges()), chartType: temp.graphType};
-    qf = Object.assign(qf, flowchart);
+  switch (temp.graphType) {
+    case "flowchart-v2":
+      const flowchart = {chart: new FlowChart(temp.getVertices(), temp.getEdges()), chartType: temp.graphType};
+      qf = Object.assign(qf, flowchart);
     break;
-  case "sequence":
-    const sequence = {chart: new SequenceDiagram(temp.getActors(), temp.getMessages()), chartType: temp.graphType};
-    qf = Object.assign(qf, sequence);
+    case "sequence":
+      const sequence = {chart: new SequenceDiagram(temp.getActors(), temp.getMessages()), chartType: temp.graphType};
+      qf = Object.assign(qf, sequence);
     break;
   case "classDiagram":
     //to do
