@@ -1,0 +1,16 @@
+{
+    "name": "mermaidparser",
+    "version": "0.0.1",
+    "dependencies": {
+        "mermaid": "^8.13.3"
+    },
+    "devDependencies": {
+        "@types/mermaid": "^9.1.0",
+        "@types/node": "^16.11.62",
+        "typescript": "^4.8.4",
+        "ts-node": "^10.9.1"
+    },
+    "scripts": {
+        "start": "ts-node src/index.ts"
+    }
+}
